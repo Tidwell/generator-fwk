@@ -29,8 +29,10 @@ The generator will ask you a number of questions to fill out the package.json fi
 
 ### angularServer
 
+Provides a static file server and serves the index.html file for all unmatched routes (so your angular app can handle routing).
+
 ```
-yo fwk:angular-server serverName
+$ yo fwk:angular-server serverName
 ```
 
 This generator will request:
@@ -40,9 +42,7 @@ This generator will request:
 
 This will generate a serverNameServer.js file in the server/modules/ directory and a config entry in server/config/local.js
 
-After running the generator, you can cd to the folder name and run
-```yo angular```
-to scaffold a new angular app.
+After running the generator, you can cd to public/serverName and run ```yo angular``` to scaffold a new angular app.
 
 If not using the domain's root, be sure to modify your index.html to provide the proper base URL:
 ```
