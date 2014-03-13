@@ -27,7 +27,12 @@ var FwkGenerator = yeoman.generators.Base.extend({
 
     var prompts = [{
       name: 'appName',
-      message: 'What is the name of the app?'
+      message: 'What is the name of the app?',
+      validate: function(name) {
+        if (!name) { return 'You must enter a name.'; }
+        if (!/^[a-z0-9]+$/i.test(name)) { return 'The name can only contain A-Z a-z and 0-9.'; }
+        return true;
+      }
     }, {
       name: 'appDescription',
       message: 'What is the description for the app?'

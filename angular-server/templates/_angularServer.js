@@ -23,12 +23,12 @@ var <%=objectName%>Server = exports.<%=objectName%>Server = function(options, ev
 
 	//add the static frontend server
     events.on('server:configure', function(app){
-        app.use(express.static(serverOptions.staticPath));
+        app.use(serverOptions.uriPath, express.static(serverOptions.staticPath));
     });
 	
 	//add the routes
 	events.on('server:genericRoutes', function(app){
-		app.get(serverOptions.uriPath + '*', function(req,res) { //serve all /uriPath/* routes
+		app.get(serverOptions.uriPath + '/*', function(req,res) { //serve all /uriPath/* routes
 			self.serve(req,res);
 		});
 	});

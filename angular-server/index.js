@@ -16,7 +16,7 @@ var AngularServerGenerator = yeoman.generators.NamedBase.extend({
 			name: 'uri',
 			message: 'What is the uri for this angular app (for the entire domain eg. example.com/ use / )?',
 			default: this.name
-		},{
+		}, {
 			name: 'folder',
 			message: 'What is the folder for this angular app?',
 			default: this.name
@@ -25,7 +25,7 @@ var AngularServerGenerator = yeoman.generators.NamedBase.extend({
 		this.prompt(prompts, function(props) {
 			this.folder = props.folder;
 			this.uri = props.uri;
-			this.objectName = this.name.charAt(0).toUpperCase() + this.name.slice(1)
+			this.objectName = this.name.charAt(0).toUpperCase() + this.name.slice(1);
 
 			done();
 		}.bind(this));
@@ -51,6 +51,9 @@ var AngularServerGenerator = yeoman.generators.NamedBase.extend({
 		var resolvedFolder = this.folder ? this.folder + '/' : ''; //add the trailing slash if they specified a folder
 		var resolvedUri = this.uri[0] === '/' ? this.uri : '/'+this.uri; //add the leading slash
 
+		if (configObj[this.name+'Server']) {
+			throw 'There is already a module defined as ' + this.name + 'Server please choose a different name or delete the existing module';
+		}
 		configObj[this.name+'Server'] = {
 			staticDirectory: '/public/' + resolvedFolder + 'app',
 			uriPath: resolvedUri
@@ -69,6 +72,7 @@ var AngularServerGenerator = yeoman.generators.NamedBase.extend({
 
 
 		this.log('You\'re ready to cd to public/' + resolvedFolder + ' and run yo angular');
+		this.log('After you initialize your angular app, make sure you add <base href="'+resolvedUri+'/"> to the HEAD of your index.html');
 	}
 });
 
