@@ -1,47 +1,53 @@
-# generator-fwk [![Build Status](https://secure.travis-ci.org/Tidwell/generator-fwk.png?branch=master)](https://travis-ci.org/Tidwell/generator-fwk)
+# generator-fwk
 
-> [Yeoman](http://yeoman.io) generator
+> [Yeoman](http://yeoman.io) generator for fwk
 
+## What is FWK (placeholder name)
+FWK is a module-based framework for creating a nodejs application server.  It builds on the nodejitsu module structure and provides a core module, an express server instance,  a mongo database connection (using mongoose), and a eventListener instance that can be used to talk between modules.
+
+Prebuilt modules can be added to the server to do a variety of tasks, such as serving angular apps, serving static files, communicating over websockets, or serving dynamic routes.  This generator provides the necessary scaffolding tools for using prebuilt modules or creating your own modules.
 
 ## Getting Started
-
-### What is Yeoman?
-
-Trick question. It's not a thing. It's this guy:
-
-![](http://i.imgur.com/JHaAlBJ.png)
-
-Basically, he wears a top hat, lives in your computer, and waits for you to tell him what kind of application you wish to create.
-
-Not every new computer comes with a Yeoman pre-installed. He lives in the [npm](https://npmjs.org) package repository. You only have to ask for him once, then he packs up and moves into your hard drive. *Make sure you clean up, he likes new and shiny things.*
 
 ```
 $ npm install -g yo
 ```
-
-### Yeoman Generators
-
-Yeoman travels light. He didn't pack any generators when he moved in. You can think of a generator like a plug-in. You get to choose what type of application you wish to create, such as a Backbone application or even a Chrome extension.
-
-To install generator-fwk from npm, run:
-
 ```
 $ npm install -g generator-fwk
 ```
 
-Finally, initiate the generator:
+Scaffold a new project:
 
 ```
 $ yo fwk
 ```
 
-### Getting To Know Yeoman
+The generator will ask you a number of questions to fill out the package.json file for the project, and will then ask you for your local database server information and what database you would like to use for this application.
 
-Yeoman has a heart of gold. He's a person with feelings and opinions, but he's very easy to work with. If you think he's too opinionated, he can be easily convinced.
 
-If you'd like to get to know Yeoman better and meet some of his friends, [Grunt](http://gruntjs.com) and [Bower](http://bower.io), check out the complete [Getting Started Guide](https://github.com/yeoman/yeoman/wiki/Getting-Started).
+## Provided Modules
 
+### angularServer
+
+```
+yo fwk:angular-server serverName
+```
+
+This generator will request:
+  * A folder to serve (located in public/)
+  * A URI for the angular app (for root, enter /)
+  * Both will default to the serverName
+
+This will generate a serverNameServer.js file in the server/modules/ directory and a config entry in server/config/local.js
+
+After running the generator, you can cd to the folder name and run
+```yo angular```
+to scaffold a new angular app.
+
+If not using the domain's root, be sure to modify your index.html to provide the proper base URL:
+```
+<base href="/URI/" />
+```
 
 ## License
-
 MIT
