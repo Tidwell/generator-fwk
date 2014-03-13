@@ -11,12 +11,12 @@ var express = require('express');
 
 var Module = require('./core/module').Module;
 
-var AngularServer = exports.AngularServer = function(options, events) {
+var <%=objectName%>Server = exports.<%=objectName%>Server = function(options, events) {
 	//call parent constructor
 	Module.call(this, options);
 	var self = this;
 
-	var serverOptions = self.options.get('angularServer');
+	var serverOptions = self.options.get('<%=name%>Server');
 
 	//generate the absolute path from the config
 	serverOptions.staticPath = self.generateStaticDirectory(serverOptions.staticDirectory);
@@ -34,7 +34,7 @@ var AngularServer = exports.AngularServer = function(options, events) {
 	});
 };
 
-util.inherits(AngularServer, Module);
+util.inherits(<%=objectName%>Server, Module);
 
 /*
 	Serves the angular app
@@ -44,9 +44,9 @@ util.inherits(AngularServer, Module);
 	If the file exists, serve it, otherwise serve the index.html
 		DANGER -- assumes single-point of entry and no 404
 */
-AngularServer.prototype.serve = function(req,res) {
+<%=objectName%>Server.prototype.serve = function(req,res) {
 	var self = this;
-	var serverOptions = this.options.get('angularServer');
+	var serverOptions = this.options.get('<%=name%>Server');
 
 	//strip off the leading /uriPath portion of the url
 	var path = req.path;

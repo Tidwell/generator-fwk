@@ -14,13 +14,18 @@ var AngularServerGenerator = yeoman.generators.NamedBase.extend({
 
 		var prompts = [{
 			name: 'uri',
-			message: 'What is the uri for this angular app (defaults to the entire domain eg. example.com/ )?',
-			default: '/'
+			message: 'What is the uri for this angular app (for the entire domain eg. example.com/ use / )?',
+			default: this.name
+		},{
+			name: 'folder',
+			message: 'What is the folder for this angular app?',
+			default: this.name
 		}];
 
 		this.prompt(prompts, function(props) {
-			this.folder = props.name;
+			this.folder = props.folder;
 			this.uri = props.uri;
+			this.objectName = this.name.charAt(0).toUpperCase() + this.name.slice(1)
 
 			done();
 		}.bind(this));
@@ -31,7 +36,6 @@ var AngularServerGenerator = yeoman.generators.NamedBase.extend({
 		if (this.folder) {
 			this.mkdir('public/' + this.folder);
 		}
-		this.copy('_angularServer.js', 'server/app/modules/angularServer.js');
 		var configPath = path.join(this.destinationRoot(), '/server/config/local.js');
 
 		var configString = this.readFileAsString(configPath);
@@ -44,11 +48,12 @@ var AngularServerGenerator = yeoman.generators.NamedBase.extend({
 		} catch(e) {
 			throw 'There was a problem parsing your local config file.  Please verify that your config is valid JSON';
 		}
-		var resolvedFolder = this.folder ? this.folder + '/' : '';
+		var resolvedFolder = this.folder ? this.folder + '/' : ''; //add the trailing slash if they specified a folder
+		var resolvedUri = this.uri[0] === '/' ? this.uri : '/'+this.uri; //add the leading slash
 
-		configObj.angularServer = {
+		configObj[this.name+'Server'] = {
 			staticDirectory: '/public/' + resolvedFolder + 'app',
-			uriPath: this.uri
+			uriPath: resolvedUri
 		};
 		fs.unlink(configPath, function(err) {
 			if (err) {
@@ -60,8 +65,10 @@ var AngularServerGenerator = yeoman.generators.NamedBase.extend({
 			})
 		});
 
+		this.copy('_angularServer.js', 'server/app/modules/'+this.name+'Server.js');
 
-		this.log('You\'re ready to cd to public/' + (this.folder ? this.folder : '') + ' and run yo angular');
+
+		this.log('You\'re ready to cd to public/' + resolvedFolder + ' and run yo angular');
 	}
 });
 
