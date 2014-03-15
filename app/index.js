@@ -80,7 +80,7 @@ var FwkGenerator = yeoman.generators.Base.extend({
     this.template('server/config/_local.js', 'server/config/local.js');
     this.template('server/config/_local.js', 'server/config/prod.js');
 
-    this.copy('server/_app.js', 'server/app.js')
+    this.copy('server/_app.js', 'server/app.js');
 
   },
 

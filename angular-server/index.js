@@ -3,6 +3,7 @@ var util = require('util');
 var yeoman = require('yeoman-generator');
 var path = require('path');
 var fs = require('fs');
+var fwkUtil = require('../util');
 
 var AngularServerGenerator = yeoman.generators.NamedBase.extend({
 	init: function() {},
@@ -33,43 +34,30 @@ var AngularServerGenerator = yeoman.generators.NamedBase.extend({
 
 	files: function() {
 		var self = this;
+		
+		var configPath = path.join(this.destinationRoot(), '/server/config/local.js');
+		
+		//add the trailing slash if they specified a folder
+		var resolvedFolder = this.folder ? this.folder + '/' : '';
+		//add the leading slash
+		var resolvedUri = this.uri[0] === '/' ? this.uri : '/'+this.uri;
+
+		fwkUtil.updateConfig({
+			path: configPath, //path to the config file
+			key: self.name+'Server', //key to add to the config file
+			object: {
+				staticDirectory: '/public/' + resolvedFolder + 'app',
+				uriPath: resolvedUri
+			}, //object to set the config[key] to
+			env: 'local', //the string env for error messages
+			log: self.log //a logging function for success
+		});
+
+		//imake the folders and copy the files
 		if (this.folder) {
 			this.mkdir('public/' + this.folder);
 		}
-		var configPath = path.join(this.destinationRoot(), '/server/config/local.js');
-
-		var configString = this.readFileAsString(configPath);
-		var prepend = 'module.exports = ';
-		var append = ';';
-		configString = configString.replace(prepend, '').replace(append, '');
-
-		try {
-			var configObj = JSON.parse(configString);
-		} catch(e) {
-			throw 'There was a problem parsing your local config file.  Please verify that your config is valid JSON';
-		}
-		var resolvedFolder = this.folder ? this.folder + '/' : ''; //add the trailing slash if they specified a folder
-		var resolvedUri = this.uri[0] === '/' ? this.uri : '/'+this.uri; //add the leading slash
-
-		if (configObj[this.name+'Server']) {
-			throw 'There is already a module defined as ' + this.name + 'Server please choose a different name or delete the existing module';
-		}
-		configObj[this.name+'Server'] = {
-			staticDirectory: '/public/' + resolvedFolder + 'app',
-			uriPath: resolvedUri
-		};
-		fs.unlink(configPath, function(err) {
-			if (err) {
-				throw err;
-			}
-			fs.writeFile(configPath, prepend + JSON.stringify(configObj, null, 4) + append, function(err) {
-				if (err) { throw err; }
-				self.log('Local config.js updated');
-			})
-		});
-
 		this.copy('_angularServer.js', 'server/app/modules/'+this.name+'Server.js');
-
 
 		this.log('You\'re ready to cd to public/' + resolvedFolder + ' and run yo angular');
 		this.log('After you initialize your angular app, make sure you add <base href="'+resolvedUri+'/"> to the HEAD of your index.html');
