@@ -78,7 +78,7 @@ If not using the domain's root, be sure to modify your index.html to provide the
 
 ## Module Generator
 
-To create a new generic module, you simply have to run the generator.  By default, this module simply catches the server:routes event and binds to the /moduleName route and returns a {okay: true} json esponse.  It also has an example method on the prototype.  You will probably strip this logic and replace it with your own.
+To create a new generic module, you simply have to run the generator.  By default, this module simply catches the server:routes event, binds to the /moduleName route and returns a {okay: true} json esponse.  It also has an example method on the prototype.  You will probably strip this logic and replace it with your own.
 
 ```
 yo fwk:module moduleName
@@ -89,4 +89,4 @@ This will do several things:
   * Add a moduleName property to your config files
 
 ## License
-MIT
+TBD.  If you plan on using this in a commercial project, contact me.
