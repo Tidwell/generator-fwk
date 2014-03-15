@@ -11,6 +11,7 @@ Install:
   * Clone the repo
   * Install the server
   * ```npm install```
+  * ```run npm install for any projects in public/```
 
 Build:
   * ```./build.sh``` in ./
