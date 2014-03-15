@@ -10,7 +10,7 @@
 var util = require('util');
 var Module = require('./core/module').Module;
 
-var <%=capName%> = exports.<%=capName%> = function(options, events) {
+var <%=capName%> = exports.<%=capName%> = function(options, events, models) {
 	//call parent constructor
 	Module.call(this, options);
 	var self = this;
