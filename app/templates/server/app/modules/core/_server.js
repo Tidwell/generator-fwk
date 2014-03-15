@@ -8,7 +8,9 @@
 		server:configure - emitted when the app is ready to be configured by modules
 			@arg app -- the express app instance
 		server:routes - emitted when the app is ready to bind routes
-			@arg app -- the express app object
+			@arg app -- the express app instance
+		server:genericRoutes - emitted when the app is ready to bind catch-all routes (eg. /*)
+			@arg app - the express app instance
 		server:ready - emitted when the server has been bound to the port
 			#arg server -- the http server instance
 */

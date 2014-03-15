@@ -58,6 +58,10 @@ models.forEach(function forEach(part) {
 	exposes: createServer
 
 	Emits:
+		database:connected - mongo connection has been established
+			@arg mongoose - mongoose instance
+		models:loaded - all models have been loaded
+		modules:loaded - all modules have been loaded
 		modules:loaded - server has been created
 */
 exports.createServer = function(options) {
