@@ -35,6 +35,12 @@ var AngularServerGenerator = yeoman.generators.NamedBase.extend({
 	files: function() {
 		var self = this;
 		
+		//make the folders and copy the files
+		if (this.folder) {
+			this.mkdir('public/' + this.folder);
+		}
+		this.copy('_angularServer.js', 'server/app/modules/'+this.name+'Server.js');
+
 		var configPath = path.join(this.destinationRoot(), '/server/config/local.js');
 		
 		//add the trailing slash if they specified a folder
@@ -42,22 +48,20 @@ var AngularServerGenerator = yeoman.generators.NamedBase.extend({
 		//add the leading slash
 		var resolvedUri = this.uri[0] === '/' ? this.uri : '/'+this.uri;
 
-		fwkUtil.updateConfig({
+		var conf = {
 			path: configPath, //path to the config file
 			key: self.name+'Server', //key to add to the config file
 			object: {
 				staticDirectory: '/public/' + resolvedFolder + 'app',
 				uriPath: resolvedUri
 			}, //object to set the config[key] to
-			env: 'local', //the string env for error messages
 			log: self.log //a logging function for success
-		});
+		};
+		fwkUtil.updateConfig(conf);
 
-		//imake the folders and copy the files
-		if (this.folder) {
-			this.mkdir('public/' + this.folder);
-		}
-		this.copy('_angularServer.js', 'server/app/modules/'+this.name+'Server.js');
+		//update prod config
+		conf.path = path.join(this.destinationRoot(), '/server/config/prod.js');
+		fwkUtil.updateConfig(conf);		
 
 		this.log('You\'re ready to cd to public/' + resolvedFolder + ' and run yo angular');
 		this.log('After you initialize your angular app, make sure you add <base href="'+resolvedUri+'/"> to the HEAD of your index.html');

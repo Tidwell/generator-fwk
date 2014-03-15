@@ -68,9 +68,10 @@ exports.createServer = function(options) {
 		events: new EventEmitter()
 	};
 
-	mongoose.connect(options.db);
-
-	server.events.emit('database:connected', mongoose);
+	if (options.db) {
+		mongoose.connect(options.db);
+		server.events.emit('database:connected', mongoose);
+	}
 
 	//require each module in ./app/ and create new instance of each, passing opts
 	models.forEach(function generate(part) {

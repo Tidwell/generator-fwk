@@ -33,7 +33,7 @@ function updateConfig(opt) {
 	try {
 		configObj = JSON.parse(configString);
 	} catch(e) {
-		throw 'There was a problem parsing your config/' + env + '.js file.  Please verify that your config is valid JSON';
+		throw 'There was a problem parsing ' + configPath + '  Please verify that your config is valid JSON';
 	}
 	if (configObj[objectKey]) {
 		throw 'There is already a module defined as ' + objectKey + ' please choose a different name or delete the existing module';
@@ -46,7 +46,7 @@ function updateConfig(opt) {
 		}
 		fs.writeFile(configPath, prepend + JSON.stringify(configObj, null, 4) + append, function(err) {
 			if (err) { throw err; }
-			log('Your config/' + env + '.js has been updated.');
+			log('Your config file at ' + configPath + ' has been updated.');
 		});
 	});
 }

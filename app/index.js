@@ -3,6 +3,7 @@ var util = require('util');
 var path = require('path');
 var yeoman = require('yeoman-generator');
 var chalk = require('chalk');
+var fwkUtil = require('../util');
 
 
 var FwkGenerator = yeoman.generators.Base.extend({
@@ -40,18 +41,30 @@ var FwkGenerator = yeoman.generators.Base.extend({
       name: 'appAuthor',
       message: 'Who is the author for the app?'
     }, {
+      name: 'useDB',
+      type: 'confirm',
+      message: 'Would you like to set up your mongoDB connection information now?'
+    }, {
       name: 'dbServer',
       message: 'What is your mongo database server?',
-      default: 'localhost'
+      default: 'localhost',
+      when: function(answers){
+        return answers.useDB;
+      }
     }, {
       name: 'dbName',
-      message: 'What is the name of the database you would like to use?'
+      message: 'What is the name of the database you would like to use?',
+      when: function(answers){
+        return answers.useDB;
+      }
     }];
 
     this.prompt(prompts, function (props) {
       this.appName = props.appName;
       this.appDescription = props.appDescription;
       this.appAuthor = props.appAuthor;
+
+      this.useDB = props.useDB;
       this.dbServer = props.dbServer;
       this.dbName = props.dbName;
 
@@ -60,6 +73,8 @@ var FwkGenerator = yeoman.generators.Base.extend({
   },
 
   app: function () {
+    var self = this;
+
     this.mkdir('server');
     this.mkdir('server/app');
     this.mkdir('server/app/models');
@@ -81,11 +96,28 @@ var FwkGenerator = yeoman.generators.Base.extend({
     this.template('server/config/_local.js', 'server/config/prod.js');
 
     this.copy('server/_app.js', 'server/app.js');
-
   },
 
   projectfiles: function () {
     
+  },
+
+  updateConfig: function() {
+    var self = this;
+    if (this.useDB) {
+      var configPath = path.join(this.destinationRoot(), '/server/config/local.js');
+      var conf = {
+        path: configPath, //path to the config file
+        key: 'db', //key to add to the config file
+        object: 'mongodb://' + this.dbServer + '/' + this.dbName, //object to set the config[key] to
+        log: self.log //a logging function for success
+      };
+      
+      fwkUtil.updateConfig(conf);
+
+      conf.path = path.join(this.destinationRoot(), '/server/config/prod.js');
+      fwkUtil.updateConfig(conf);
+    }
   }
 });
 
