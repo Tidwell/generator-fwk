@@ -2,7 +2,9 @@
 var fs = require('fs');
 
 module.exports = {
-	updateConfig: updateConfig
+	updateConfig: updateConfig,
+	capName: capName,
+	lowerName: lowerName
 };
 
 /* Expects an object containing
@@ -36,7 +38,7 @@ function updateConfig(opt) {
 		throw 'There was a problem parsing ' + configPath + '  Please verify that your config is valid JSON';
 	}
 	if (configObj[objectKey]) {
-		throw 'There is already a module defined as ' + objectKey + ' please choose a different name or delete the existing module';
+		throw 'There is already a config option for ' + objectKey + ' please choose a different name or delete the existing config entry';
 	}
 
 	configObj[objectKey] = object;
@@ -50,3 +52,12 @@ function updateConfig(opt) {
 		});
 	});
 }
+
+function capName(str) {
+	return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase()
+}
+
+function lowerName(str) {
+	return str.toLowerCase();
+}
+

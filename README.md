@@ -30,10 +30,7 @@ The generator will ask you a number of questions to fill out the package.json fi
 }
 ```
 
-
-## Provided Modules
-
-### app
+## App Entrypoint
 
 The application entry point is located in the root directory app.js.  This file loads the appropriate config file based on passed in -env or -e flag.  Defaults to local.  This file also sets up code in production to swallow all error messages.  You probably want to change this to do some type of logging.  After loading the config, the entry point will bootstrap the app, located in server/app.js
 
@@ -43,15 +40,19 @@ Events emitted:
   * ``modules:loaded`` - When all modules have been loaded from server/app/modules
 
 
+## Default Modules
+
 ### server
 
-The module that instantiates the express server
+The module that instantiates the express server.  This is included in core and located in modules/core
 
 Events emitted:
   * ``server:configure`` - When the express app and http server have been created, args: express instance, http.createServer instance
   * ``server:routes`` - when modules should bind their specific routes, args: express instance
   * ``server:genericRoutes`` - when modules should bind their generic catch-all routes (like /*) - this is so they don't conflict with any specific routes in the routing table, args: express instance
   * ``server:ready`` - the http server has been bound to the port and is ready to serve requests
+
+## Scaffoldable Modules
 
 ### angularServer
 
@@ -74,6 +75,18 @@ If not using the domain's root, be sure to modify your index.html to provide the
 ```
 <base href="/URI/" />
 ```
+
+## Module Generator
+
+To create a new generic module, you simply have to run the generator.  By default, this module simply catches the server:routes event and binds to the /moduleName route and returns a {okay: true} json esponse.  It also has an example method on the prototype.  You will probably strip this logic and replace it with your own.
+
+```
+yo fwk:module moduleName
+```
+
+This will do several things:
+  * Create a new generic module in server/app/modules/moduleName.js
+  * Add a moduleName property to your config files
 
 ## License
 MIT

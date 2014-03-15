@@ -26,7 +26,7 @@ var AngularServerGenerator = yeoman.generators.NamedBase.extend({
 		this.prompt(prompts, function(props) {
 			this.folder = props.folder;
 			this.uri = props.uri;
-			this.objectName = this.name.charAt(0).toUpperCase() + this.name.slice(1);
+			this.objectName = fwkUtil.capName(this.name);
 
 			done();
 		}.bind(this));
@@ -61,7 +61,7 @@ var AngularServerGenerator = yeoman.generators.NamedBase.extend({
 
 		//update prod config
 		conf.path = path.join(this.destinationRoot(), '/server/config/prod.js');
-		fwkUtil.updateConfig(conf);		
+		fwkUtil.updateConfig(conf);
 
 		this.log('You\'re ready to cd to public/' + resolvedFolder + ' and run yo angular');
 		this.log('After you initialize your angular app, make sure you add <base href="'+resolvedUri+'/"> to the HEAD of your index.html');
