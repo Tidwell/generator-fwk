@@ -76,9 +76,10 @@ If not using the domain's root, be sure to modify your index.html to provide the
 <base href="/URI/" />
 ```
 
+
 ## Module Generator
 
-To create a new generic module, you simply have to run the generator.  By default, this module simply catches the server:routes event, binds to the /moduleName route and returns a {okay: true} json esponse.  It also has an example method on the prototype.  You will probably strip this logic and replace it with your own.
+To create a new generic module, you simply have to run the generator.  By default, this module simply catches the server:routes event, binds to the /moduleName route and returns a {okay: true} json esponse.  It also has an example method on the prototype.  You will probably strip this logic and replace it with your own.  *BUG* Names must be Firstlettercaponly
 
 ```
 yo fwk:module moduleName
@@ -87,6 +88,20 @@ yo fwk:module moduleName
 This will do several things:
   * Create a new generic module in server/app/modules/moduleName.js
   * Add a moduleName property to your config files
+
+
+
+## Model Generator
+
+To create a new generic model, you simply have to run the generator.  *BUG* Names must be Firstlettercaponly
+
+```
+yo fwk:model name
+```
+
+This will create a new generic model in server/app/models/name.js
+
+
 
 ## License
 TBD.  If you plan on using this in a commercial project, contact me.
