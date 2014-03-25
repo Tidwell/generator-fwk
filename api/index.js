@@ -39,7 +39,7 @@ var ApiGenerator = yeoman.generators.NamedBase.extend({
 
 	files: function() {
 		var self = this;
-		this.mkdir('server/aoo/modules/api');
+		this.mkdir('server/app/modules/api');
 		this.template('_crud.js', 'server/app/modules/api/'+this.name+'.js');
 
 		var configPath = path.join(this.destinationRoot(), '/server/config/local.js');
