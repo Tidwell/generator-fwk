@@ -40,6 +40,7 @@ Events emitted:
   * ``modules:loaded`` - When all modules have been loaded from server/app/modules
 
 
+
 ## Default Modules
 
 ### server
@@ -51,6 +52,48 @@ Events emitted:
   * ``server:routes`` - when modules should bind their specific routes, args: express instance
   * ``server:genericRoutes`` - when modules should bind their generic catch-all routes (like /*) - this is so they don't conflict with any specific routes in the routing table, args: express instance
   * ``server:ready`` - the http server has been bound to the port and is ready to serve requests
+
+
+
+## Module Generator
+
+To create a new generic module, you simply have to run the generator.  By default, this module simply catches the server:routes event, binds to the /moduleName route and returns a {okay: true} json esponse.  It also has an example method on the prototype.  You will probably strip this logic and replace it with your own.  *BUG* Names must be Firstlettercaponly
+
+```
+yo fwk:module moduleName
+```
+
+This will do several things:
+  * Create a new generic module in server/app/modules/moduleName.js
+  * Add a moduleName property to your config files
+
+
+
+## Model Generator
+
+To create a new generic model, you simply have to run the generator.  *BUG* Names must be Firstlettercaponly
+
+```
+yo fwk:model name
+```
+
+This will create a new generic model in server/app/models/name.js
+
+
+## API Generator
+
+Creates a gneric CRUD API module based on a model.
+
+```
+yo fwk:api name
+```
+This generator will request:
+  * The name of the model
+  * The route for the api (defaults to api/name)
+
+This will create a new generic CRUD API module in server/app/modules/api/name.js
+
+
 
 ## Scaffoldable Modules
 
@@ -88,31 +131,6 @@ This generator will request:
   * A folder to store the templates (can be placed in public or private, full path from project root)
 
 This will generate a nameDbPage.js file in the server/modules/ directory and a config entry in server/config/local.js.  It will also create server/models/page.js and a page.html file in the specified template directory.
-
-
-## Module Generator
-
-To create a new generic module, you simply have to run the generator.  By default, this module simply catches the server:routes event, binds to the /moduleName route and returns a {okay: true} json esponse.  It also has an example method on the prototype.  You will probably strip this logic and replace it with your own.  *BUG* Names must be Firstlettercaponly
-
-```
-yo fwk:module moduleName
-```
-
-This will do several things:
-  * Create a new generic module in server/app/modules/moduleName.js
-  * Add a moduleName property to your config files
-
-
-
-## Model Generator
-
-To create a new generic model, you simply have to run the generator.  *BUG* Names must be Firstlettercaponly
-
-```
-yo fwk:model name
-```
-
-This will create a new generic model in server/app/models/name.js
 
 
 
