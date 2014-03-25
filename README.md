@@ -76,6 +76,19 @@ If not using the domain's root, be sure to modify your index.html to provide the
 <base href="/URI/" />
 ```
 
+### dbPage
+
+Provides a page model and a generic controller for querying the database for a page with a url property matching the current route.  Templates the page through mustache if found, otherwise sends a 404.
+
+```
+$ yo fwk:dbpage name
+```
+
+This generator will request:
+  * A folder to store the templates (can be placed in public or private, full path from project root)
+
+This will generate a nameDbPage.js file in the server/modules/ directory and a config entry in server/config/local.js.  It will also create server/models/page.js and a page.html file in the specified template directory.
+
 
 ## Module Generator
 
