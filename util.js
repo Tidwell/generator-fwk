@@ -38,7 +38,7 @@ function updateConfig(opt) {
 		throw 'There was a problem parsing ' + configPath + '  Please verify that your config is valid JSON';
 	}
 	if (configObj[objectKey]) {
-		throw 'There is already a config option for ' + objectKey + ' please choose a different name or delete the existing config entry';
+		console.log('There is already a config option for ' + objectKey + ' please choose a different name or delete the existing config entry');
 	}
 
 	configObj[objectKey] = object;
