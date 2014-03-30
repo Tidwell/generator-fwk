@@ -6,7 +6,11 @@ var fs = require('fs');
 var fwkUtil = require('../util');
 
 var AngularServerGenerator = yeoman.generators.NamedBase.extend({
-	init: function() {},
+	init: function() {
+		if (!fwkUtil.isRoot()) {
+			throw 'Not in project root!';
+		}
+	},
 	askFor: function() {
 		var self = this;
 		var done = this.async();

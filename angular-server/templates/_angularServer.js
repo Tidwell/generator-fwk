@@ -28,7 +28,8 @@ var <%=objectName%>Server = exports.<%=objectName%>Server = function(options, ev
 	
 	//add the routes
 	events.on('server:genericRoutes', function(app){
-		app.get(serverOptions.uriPath + '/*', function(req,res) { //serve all /uriPath/* routes
+		var prefix = serverOptions.uriPath === '/' ? '' : serverOptions.uriPath;
+		app.get(prefix + '/*', function(req,res) { //serve all /uriPath/* routes
 			self.serve(req,res);
 		});
 	});

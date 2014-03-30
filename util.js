@@ -4,7 +4,8 @@ var fs = require('fs');
 module.exports = {
 	updateConfig: updateConfig,
 	capName: capName,
-	lowerName: lowerName
+	lowerName: lowerName,
+	isRoot: isRoot
 };
 
 /* Expects an object containing
@@ -27,14 +28,14 @@ function updateConfig(opt) {
 	var configString = fs.readFileSync(configPath, 'utf8');
 	var prepend = 'module.exports = ';
 	var append = ';';
-	
+
 	configString = configString.replace(prepend, '').replace(append, '');
 
 	var configObj;
 
 	try {
 		configObj = JSON.parse(configString);
-	} catch(e) {
+	} catch (e) {
 		throw 'There was a problem parsing ' + configPath + '  Please verify that your config is valid JSON';
 	}
 	if (configObj[objectKey]) {
@@ -47,7 +48,9 @@ function updateConfig(opt) {
 			throw err;
 		}
 		fs.writeFile(configPath, prepend + JSON.stringify(configObj, null, 4) + append, function(err) {
-			if (err) { throw err; }
+			if (err) {
+				throw err;
+			}
 			log('Your config file at ' + configPath + ' has been updated.');
 		});
 	});
@@ -61,3 +64,14 @@ function lowerName(str) {
 	return str.toLowerCase();
 }
 
+function isRoot() {
+	var isRoot = true;
+	var paths = ['./server/', './public/']
+	paths.forEach(function(path) {
+		if (!fs.existsSync(path)) {
+			isRoot = false;
+		}
+	});
+
+	return isRoot;
+}
