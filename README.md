@@ -97,6 +97,20 @@ This will create a new generic CRUD API module in server/app/modules/api/name.js
 
 ## Scaffoldable Modules
 
+### staticServer
+
+Provides a static file server
+
+```
+$ yo fwk:static-server name
+```
+
+This generator will request:
+  * A folder to serve (defaults to public/)
+
+This will generate a nameServer.js file in the server/modules/ directory and a config entry in server/config/local.js
+
+
 ### angularServer
 
 Provides a static file server and serves the index.html file for all unmatched routes (so your angular app can handle routing).
